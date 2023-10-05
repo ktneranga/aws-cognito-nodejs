@@ -16,21 +16,31 @@ const signup = async (req, res) => {
     };
 
     try {
-        const cognitoUser = await new Promise((resolve, reject) => {
-            CognitoIdentityService.signup(cognitoParams, (err, user) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(user);
-                }
-            });
-        });
+        // const cognitoUser = await new Promise((resolve, reject) => {
+        //     CognitoIdentityService.signup(cognitoParams, (err, user) => {
+        //         if (err) {
+        //             reject(err);
+        //         } else {
+        //             resolve(user);
+        //         }
+        //     });
+        // });
+        // res.status(200).send({
+        //     success: true,
+        //     message: 'User registered successfully',
+        //     user: cognitoUser,
+        // });
 
-        res.status(200).send({
-            success: true,
-            message: 'User registered successfully',
-            user: cognitoUser,
-        });
+        try {
+            const cognitoUser = await CognitoIdentityService.signup(cognitoParams);
+            res.status(200).json({
+                success: true,
+                message: 'User registered successfully!',
+                user: cognitoUser,
+            });
+        } catch (cognitoUserErr) {
+            throw cognitoUserErr;
+        }
     } catch (error) {
         res.status(400).send({ success: false, message: error.message, error });
     }

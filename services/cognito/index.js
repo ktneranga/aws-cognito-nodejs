@@ -18,8 +18,8 @@ class CognitoIdentityService {
         this.poolData = poolData;
     }
 
-    signup(body, callback) {
-        return CognitoItentityMethods.signup(this.poolData, body, callback);
+    signup(body) {
+        return CognitoItentityMethods.signup(this.poolData, body);
     }
 }
 
