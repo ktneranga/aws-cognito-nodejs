@@ -36,6 +36,40 @@ const signup = async (req, res) => {
     }
 };
 
+const signupConfirm = async (req, res) => {
+    const { email, code } = req.body;
+
+    const cognitoParams = {
+        username: email,
+        confirmationcode: code,
+    };
+
+    try {
+        await new Promise((resolve, reject) => {
+            CognitoIdentityService.signupConfirm(cognitoParams, (err, user) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(user);
+                }
+            });
+        });
+
+        //DB logic here
+
+        res.status(200).json({
+            success: true,
+            message: 'User email confirmed successfully',
+            user: {
+                user_confirmed: true,
+            },
+        });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message, error });
+    }
+};
+
 module.exports = {
     signup,
+    signupConfirm,
 };
