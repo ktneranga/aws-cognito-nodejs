@@ -69,7 +69,37 @@ const signupConfirm = async (req, res) => {
     }
 };
 
+const signin = async (req, res) => {
+    const { email, password } = req.body;
+
+    const cognitoParams = {
+        username: email,
+        password,
+    };
+
+    try {
+        const cognitoUser = await new Promise((resolve, reject) => {
+            CognitoIdentityService.signin(cognitoParams, (err, user) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(user);
+                }
+            });
+        });
+
+        res.status(200).send({
+            success: true,
+            message: 'User logined successfully',
+            user: cognitoUser,
+        });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message, error });
+    }
+};
+
 module.exports = {
     signup,
     signupConfirm,
+    signin,
 };
