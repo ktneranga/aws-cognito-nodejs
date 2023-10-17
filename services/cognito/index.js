@@ -21,8 +21,17 @@ class CognitoIdentityService {
     signup(body, callback) {
         return CognitoItentityMethods.signup(this.poolData, body, callback);
     }
+
+    signupConfirm(body, callback) {
+        return CognitoItentityMethods.signupConfirm(this.poolData, body, callback);
+    }
+
+    signin(body, callback) {
+        return CognitoItentityMethods.signin(this.poolData, body, callback);
+    }
 }
 
 module.exports = function Wrapper() {
+    //creating an object from the
     return new CognitoIdentityService();
 };

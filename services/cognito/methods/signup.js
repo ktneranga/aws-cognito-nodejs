@@ -1,4 +1,4 @@
-const { CognitoUserPool, CognitoUserAttribute } = require('amazon-cognito-identity-js');
+const { CognitoUserPool, CognitoUserAttribute, CognitoUser } = require('amazon-cognito-identity-js');
 
 const attributes = (key, value) => ({
     Name: key,
@@ -37,4 +37,4 @@ const signup = (poolData, body, callback) => {
     });
 };
 
-module.exports = signup;
+module.exports = { signup };
